@@ -8,48 +8,49 @@ CREATE TABLE [dbo].[Driver] (
 [driverDateOfBirth] date NOT NULL default '19900703',
 [driverPlaceOfBirth] varchar(64) NOT NULL default '',
 [driverImage] varchar(200) NOT NULL default '',
+[teamCode] int NOT NULL default 0,
 PRIMARY KEY ([driverCode])
 );
 
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (44, 'Lewis', 'Hamilton', 'GB', '19850107', 'England');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (77, 'Valtteri', 'Bottas', 'GB', '19890828', 'Finland');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (33, 'Max', 'Verstappen', 'GB', '19970930', 'Belgium');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (4, 'Lando', 'Norris', 'GB', '19991113', 'England');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (23, 'Alexander', 'Albon', 'GB', '19960323', 'England');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (3, 'Daniel', 'Ricciardo', 'GB', '19890701', 'Australia');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (16, 'Charles', 'Leclerc', 'GB', '19971016', 'Monaco');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (18, 'Lance', 'Stroll', 'GB', '19981029', 'Canada');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (11, 'Sergio', 'Perez', 'GB', '19900126', 'Mexico');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (10, 'Pierre', 'Gasly', 'GB', '19960207', 'France');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (55, 'Carlos', 'Sainz', 'GB', '19940901', 'Spain');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (31, 'Esteban', 'Ocon', 'GB', '19960917', 'Normandy');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (5, 'Sebastian', 'Vettel', 'GB', '19870703', 'Germany');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (26, 'Daniil', 'Kvyat', 'GB', '19940426', 'Russia');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (27, 'Nicp', 'Hulkenberg', 'GB', '19870819', 'Germany');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (7, 'Kimi', 'Räikkönen', 'GB', '19791017', 'Finland');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (99, 'Antonio', 'Giovinazzi', 'GB', '19931214', 'Italy');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (20, 'Kevin', 'Magnussen', 'GB', '19921005', 'Denmark');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (6, 'Nicholas', 'Latifi', 'GB', '19950629', 'Canada');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (63, 'George', 'Russell', 'GB', '19980215', 'England');
-INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth)
-VALUES (8, 'Romain', 'Grosjean', 'GB', '19860417', 'Switzerland');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (44, 'Lewis', 'Hamilton', 'GB', '19850107', 'England', 'MER');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (77, 'Valtteri', 'Bottas', 'FI', '19890828', 'Finland', 'MER');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (33, 'Max', 'Verstappen', 'BE', '19970930', 'Belgium', 'ASM');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (4, 'Lando', 'Norris', 'GB', '19991113', 'England', 'MCL');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (23, 'Alexander', 'Albon', 'GB', '19960323', 'England', 'ASM');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (3, 'Daniel', 'Ricciardo', 'AU', '19890701', 'Australia', 'REN');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (16, 'Charles', 'Leclerc', 'MC', '19971016', 'Monaco', 'FER');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (18, 'Lance', 'Stroll', 'CA', '19981029', 'Canada', 'BWT');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (11, 'Sergio', 'Perez', 'MX', '19900126', 'Mexico', 'BWT');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (10, 'Pierre', 'Gasly', 'FR', '19960207', 'France', 'ATH');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (55, 'Carlos', 'Sainz', 'ES', '19940901', 'Spain', 'MCL');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (31, 'Esteban', 'Ocon', 'FR', '19960917', 'Normandy', 'REN');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (5, 'Sebastian', 'Vettel', 'DE', '19870703', 'Germany', 'FER');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (26, 'Daniil', 'Kvyat', 'RU', '19940426', 'Russia', 'ATH');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (27, 'Nico', 'Hulkenberg', 'DE', '19870819', 'Germany', 'BWT');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (7, 'Kimi', 'Räikkönen', 'FI', '19791017', 'Finland', 'ARR');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (99, 'Antonio', 'Giovinazzi', 'IT', '19931214', 'Italy', 'ARR');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (20, 'Kevin', 'Magnussen', 'DK', '19921005', 'Denmark', 'HAA');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (6, 'Nicholas', 'Latifi', 'CA', '19950629', 'Canada', 'WLR');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (63, 'George', 'Russell', 'GB', '19980215', 'England', 'WLR');
+INSERT INTO [Driver] (driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, teamCode)
+VALUES (8, 'Romain', 'Grosjean', 'CH', '19860417', 'Switzerland', 'HAA');
