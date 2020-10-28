@@ -8,6 +8,8 @@ namespace FormulaOneConsole
     {
         public const string WORKINGPATH = @"C:\data\formulaone\";
         private const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + WORKINGPATH + @"FormulaOne.mdf;Integrated Security=True";
+        public static string[] tableNames = { "Country", "Driver", "Team" };
+        public static string hour;
 
         static void Main(string[] args)
         {
@@ -43,7 +45,7 @@ namespace FormulaOneConsole
                 }
             } while (scelta != 'X' && scelta != 'x');
         }
-        
+
         static bool ExecuteSqlScript(string sqlScriptName, string tab = "")
         {
             bool retVal = true;
@@ -57,7 +59,7 @@ namespace FormulaOneConsole
             {
                 fileContent = fileContent.Replace("table_name", tab);
             }
-            
+
             var sqlqueries = fileContent.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
 
             var con = new SqlConnection(CONNECTION_STRING);
@@ -87,13 +89,25 @@ namespace FormulaOneConsole
 
         static void ResetDB()
         {
+            //BACKUP DELLE TABELLE
+            //Backup(); //backup mdf
+            //backup delle tabelle
+            //BackupAndRestore();
+            //Backup(); //backup delle tabelle
+            ProvaB();
+
+            //RIPRISTINO DELLE TABELLE
+            //Restore();
+            ProvaR();
+
             //DROP TABLE
             string[] sql = { "drivers.sql", "teams.sql", "countries.sql" };
-            string[] database = { "Driver", "Team", "Country" };
-            for (int i = 0; i < database.Length; i++)
+            //string[] database = { "Driver", "Team", "Country" };
+            for (int i = 0; i < tableNames.Length; i++)
             {
-                ExecuteDropTable(database[i]);
+                DropTable(tableNames[i]);
             }
+
             //CREATE TABLE
             for (int i = 0; i < sql.Length; i++)
             {
@@ -144,7 +158,7 @@ namespace FormulaOneConsole
         //    return true;
         //}
 
-        static void ExecuteDropTable(string sqlScriptName)
+        static void DropTable(string sqlScriptName)
         {
             SqlConnection con = new SqlConnection(CONNECTION_STRING);
             SqlCommand cmd = new SqlCommand("DROP TABLE IF EXISTS " + sqlScriptName + ";", con);
@@ -152,7 +166,7 @@ namespace FormulaOneConsole
             try
             {
                 cmd.ExecuteNonQuery();
-                Console.WriteLine("Table " + sqlScriptName + " is Dropped ");
+                Console.WriteLine("Table " + sqlScriptName + " dropped ");
             }
             catch (SqlException ex)
             {
@@ -160,5 +174,167 @@ namespace FormulaOneConsole
             }
             con.Close();
         }
+        /// <summary>
+        /// BACKUP MDF
+        /// </summary>
+        //private static void Backup()
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+        //        {
+        //            string sqlStmt = string.Format("backup database [" + WORKINGPATH + "FormulaOne.mdf] to disk='{0}'", WORKINGPATH + "FormulaOneBackup.mdf");
+        //            using (SqlCommand bu2 = new SqlCommand(sqlStmt, conn))
+        //            {
+        //                conn.Open();
+        //                bu2.ExecuteNonQuery();
+        //                conn.Close();
+
+        //                Console.WriteLine("Backup Created Sucessfully");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Console.WriteLine("Backup Not Created");
+        //    }
+        //}
+
+        private static void BackupAndRestore(string cmd = "backup database [" + WORKINGPATH + "FormulaOne.mdf] to disk='{0}'", string db = "WORKINGPATH + 'FormulaOneBackup.mdf'", string mex = "Backup created successfully", string errMex = "Backup not created")
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+                {
+                    //string sqlStmt = string.Format(cmd, db);
+                    string sqlStmt = "";
+                    foreach (string table in tableNames)
+                    {
+                        sqlStmt += "SELECT* INTO " + table + "_bck FROM " + table + ";";
+                    }
+                    Console.WriteLine(sqlStmt);
+                    using (SqlCommand command = new SqlCommand(sqlStmt, conn))
+                    {
+                        conn.Open();
+                        command.ExecuteNonQuery();
+                        conn.Close();
+
+                        Console.WriteLine(mex);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(errMex);
+            }
+        }
+
+        private static void Backup()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+                {
+                    //string sqlStmt = string.Format(cmd, db);
+                    string sqlStmt = "";
+                    foreach (string table in tableNames)
+                    {
+                        sqlStmt += "SELECT* INTO " + table + "_bck FROM " + table + ";";
+                    }
+                    Console.WriteLine(sqlStmt);
+                    using (SqlCommand command = new SqlCommand(sqlStmt, conn))
+                    {
+                        conn.Open();
+                        command.ExecuteNonQuery();
+                        conn.Close();
+
+                        Console.WriteLine("");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("");
+            }
+        }
+
+        private static void ProvaB()
+        {
+            hour = DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss");
+            
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+                {
+                    string cmd = "BACKUP DATABASE [" + /*conn.Database.ToString()*/WORKINGPATH + "countries.sql] TO DISK= '" + WORKINGPATH + "\\Database-" + hour + ".bak'";
+
+                    using(SqlCommand command = new SqlCommand(cmd, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    Console.WriteLine("Backup completed successfully");
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("");
+            }
+        }
+
+        private static void ProvaR()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+                {
+                    string sqlStm2 = string.Format("ALTER DATABASE [" + /*conn.Database.ToString()*/WORKINGPATH + "countries.sql] SET SINGLE-USER WITH ROLLBACK IMMEDIATE");
+                    SqlCommand bu2 = new SqlCommand(sqlStm2, conn);
+                    bu2.ExecuteNonQuery();
+                    string sqlStm3 = "USE MASTER RESTORE DATABASE [" + /*conn.Database.ToString()*/WORKINGPATH + "countries.sql] FROM DISK= '" + WORKINGPATH + "\\Database-" + hour + ".bak'";
+                    SqlCommand bu3 = new SqlCommand(sqlStm3, conn);
+                    bu3.ExecuteNonQuery();
+                    string sqlStm4 = string.Format("ALTER DATABASE [" + /*conn.Database.ToString()*/WORKINGPATH + "countries.sql] SET MULTI-USER");
+                    SqlCommand bu4 = new SqlCommand(sqlStm4, conn);
+                    bu4.ExecuteNonQuery();
+                }
+                Console.WriteLine("Restore completed successfully");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("");
+            }
+        }
+
+        //private static void Restore()
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection conn = new SqlConnection(CONNECTION_STRING))
+        //        {
+        //            //string sqlStmt = string.Format(cmd, db);
+        //            string sqlStmt = "";
+        //            foreach (string table in tableNames)
+        //            {
+        //                sqlStmt += "DROP TABLE " + table + ";";
+        //                sqlStmt += "SELECT* INTO " + table + "_bck FROM " + table + ";";
+
+        //                sqlStmt += "IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'" + ComboBoxDatabaseName.Text + "') DROP DATABASE " + ComboBoxDatabaseName.Text + " RESTORE DATABASE " + ComboBoxDatabaseName.Text + " FROM DISK = '" + OpenFileDialog1.FileName + "'";
+        //            }
+        //            Console.WriteLine(sqlStmt);
+        //            using (SqlCommand command = new SqlCommand(sqlStmt, conn))
+        //            {
+        //                conn.Open();
+        //                command.ExecuteNonQuery();
+        //                conn.Close();
+
+        //                Console.WriteLine("");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Console.WriteLine("");
+        //    }
+        //}
     }
 }
