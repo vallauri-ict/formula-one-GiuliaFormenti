@@ -1,5 +1,5 @@
 CREATE TABLE [dbo].[Country] (
-[countryCode] char(2) NOT NULL,
+[countryCode] varchar(2) NOT NULL,
 [countryName] varchar(100) NOT NULL default '',
 [countryImage] varchar(200) NOT NULL default '',
 PRIMARY KEY ([countryCode])

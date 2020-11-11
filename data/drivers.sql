@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[Driver] (
 [driverDateOfBirth] date NOT NULL default '19900703',
 [driverPlaceOfBirth] varchar(64) NOT NULL default '',
 [driverImage] varchar(200) NOT NULL default '',
-[teamCode] int NOT NULL default 0,
+[teamCode] varchar(3) NOT NULL default '',
 PRIMARY KEY ([driverCode])
 );
 
