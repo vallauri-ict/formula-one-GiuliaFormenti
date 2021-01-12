@@ -1,0 +1,10 @@
+ALTER TABLE [dbo].[Driver]  WITH CHECK ADD  CONSTRAINT [driver_country] FOREIGN KEY([driverNationality]) REFERENCES [dbo].[Country] ([countryCode]);
+ALTER TABLE [dbo].[Driver]  WITH CHECK ADD  CONSTRAINT [driver_team] FOREIGN KEY([teamCode]) REFERENCES [dbo].[Team] ([teamCode]);
+ALTER TABLE [dbo].[Circuit]  WITH CHECK ADD  CONSTRAINT [circuit_country] FOREIGN KEY([circuitCountry]) REFERENCES [dbo].[Country] ([countryCode]);
+ALTER TABLE [dbo].[Race]  WITH CHECK ADD  CONSTRAINT [race_circuit] FOREIGN KEY([circuitCode]) REFERENCES [dbo].[Circuit] ([circuitCode]);
+ALTER TABLE [dbo].[Result]  WITH CHECK ADD  CONSTRAINT [result_race] FOREIGN KEY([raceCode]) REFERENCES [dbo].[Race] ([raceCode]);
+ALTER TABLE [dbo].[Result]  WITH CHECK ADD  CONSTRAINT [result_driver] FOREIGN KEY([driverCode]) REFERENCES [dbo].[Driver] ([driverCode]);
+ALTER TABLE [dbo].[Result]  WITH CHECK ADD  CONSTRAINT [result_team] FOREIGN KEY([teamCode]) REFERENCES [dbo].[Team] ([teamCode]);
+ALTER TABLE [dbo].[TeamResult]  WITH CHECK ADD  CONSTRAINT [tr_team] FOREIGN KEY([teamCode]) REFERENCES [dbo].[Team] ([teamCode]);
+ALTER TABLE [dbo].[TeamResult]  WITH CHECK ADD  CONSTRAINT [tr_race] FOREIGN KEY([raceCode]) REFERENCES [dbo].[Race] ([raceCode]);
+ALTER TABLE [dbo].[TeamResult]  WITH CHECK ADD  CONSTRAINT [tr_result] FOREIGN KEY([resultCode]) REFERENCES [dbo].[Result] ([resultCode]);
