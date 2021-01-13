@@ -15,15 +15,12 @@ namespace FormulaOneWebForm
             if (!Page.IsPostBack)//Inizializzazioni che vengono eseguite solo la prima volta che carico la pagina
             {
                 lblMessaggio.Text = "Scegli una tabella da visualizzare";
-                //List<string> l = new List<string>();
-                //l.Add("country");
-                //l.Add("driver");
-                //l.Add("team");
+                //CARICO LA LISTA DINAMICAMENTE CON LE TABELLE PRESENTI NEL DATABASE
                 lbxScelta.DataSource = Utils.GetTablesNames();
                 lbxScelta.DataBind();
-                
-                
-                //CARICO LA LISTA DINAMICAMENTE CON LE TABELLE PRESENTI NEL DATABASE
+                //lbxScelta.SelectedIndex = 0;
+                dataTable.DataSource = Utils.GetDataTable(lbxScelta.SelectedValue);
+                dataTable.DataBind();
             }
             //else//Elaborazioni da eseguire tutte le volte che la pagina viene caricata
             //{
