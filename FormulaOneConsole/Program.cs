@@ -18,7 +18,7 @@ namespace FormulaOneConsole
 
         public const string WORKINGPATH = @"C:\data\formulaone\";
         private const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + WORKINGPATH + @"FormulaOne.mdf;Integrated Security=True";
-        public static string[] tableNames = { "Country", "Driver", "Team" };
+        public static string[] tableNames = { "Country", "Driver", "Team", "Circuit", "Race", "Result", "TeamResult" };
 
         private static string DB_PATH = System.Environment.CurrentDirectory;
         private static string RESTORE_CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + DB_PATH + @"\FormulaOne.bak; Integrated Security=True";
@@ -32,7 +32,7 @@ namespace FormulaOneConsole
             do
             {
                 Console.WriteLine("\n*** FORMULA ONE - BATCH SCRIPTS ***\n");
-                Console.WriteLine("1 - Create CountrY");
+                Console.WriteLine("1 - Create Country");
                 Console.WriteLine("2 - Create Teams");
                 Console.WriteLine("3 - Create Driver");
                 Console.WriteLine("4 - Create Circuit");

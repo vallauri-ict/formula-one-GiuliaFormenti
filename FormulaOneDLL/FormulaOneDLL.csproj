@@ -41,6 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Circuit.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Driver.cs" />
+    <Compile Include="Models\Race.cs" />
+    <Compile Include="Models\Result.cs" />
+    <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\TeamResult.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

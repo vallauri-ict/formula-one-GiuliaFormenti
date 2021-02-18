@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FormulaOneWebForm")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Hewlett-Packard")]
 [assembly: AssemblyProduct("FormulaOneWebForm")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright © Hewlett-Packard 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Se il progetto viene esposto a COM, il GUID seguente verrà utilizzato per creare l'ID della libreria dei tipi
-[assembly: Guid("7b3cecea-a0d6-4c71-8bc4-edab48804668")]
+[assembly: Guid("62f9c125-6ce5-43fa-9f98-26a9f44f151f")]
 
 // Le informazioni sulla versione di un assembly sono costituite dai quattro valori seguenti:
 //

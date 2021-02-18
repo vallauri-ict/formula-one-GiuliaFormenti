@@ -42,24 +42,6 @@ namespace FormulaOneWebForm
         protected global::System.Web.UI.WebControls.DropDownList lbxScelta;
 
         /// <summary>
-        /// Controllo btnInvia.
-        /// </summary>
-        /// <remarks>
-        /// Campo generato automaticamente.
-        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnInvia;
-
-        /// <summary>
-        /// Controllo lbxElenco.
-        /// </summary>
-        /// <remarks>
-        /// Campo generato automaticamente.
-        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lbxElenco;
-
-        /// <summary>
         /// Controllo dataTable.
         /// </summary>
         /// <remarks>
