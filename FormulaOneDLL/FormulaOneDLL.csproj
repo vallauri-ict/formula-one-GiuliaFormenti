@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,10 +44,12 @@
   <ItemGroup>
     <Compile Include="Models\Circuit.cs" />
     <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\DettaglioDriver.cs" />
     <Compile Include="Models\Driver.cs" />
     <Compile Include="Models\Race.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\Statistics.cs" />
     <Compile Include="Models\TeamResult.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

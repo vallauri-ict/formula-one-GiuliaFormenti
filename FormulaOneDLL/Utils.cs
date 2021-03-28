@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Data;
 using System.ComponentModel;
+using Microsoft.VisualBasic;
 
 namespace FormulaOneDLL
 {
@@ -250,6 +251,34 @@ namespace FormulaOneDLL
             }
         }
 
+        public static List<string> GetColumns(string tableName)
+        {
+            List<string> columns = new List<string>();
+
+            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+            {
+                Console.WriteLine("\nQuery data example:");
+                Console.WriteLine("=========================================\n");
+
+                StringBuilder sb = new StringBuilder();
+                string sql = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '{tableName}'";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Console.WriteLine("{0}", reader.GetString(0));
+                            columns.Add($"{reader.GetString(0)}");
+                        }
+                    }
+                }
+            }
+            return columns;
+        }
+
 
 
 
@@ -303,13 +332,13 @@ namespace FormulaOneDLL
             return table;
         }
 
-        public static Models.Country GetTableCountryByCode(string code)
+        public static List<Models.Country> GetTableCountryByStrParam(string campi, string param)
         {
-            Models.Country retVal = null;
+            List<Models.Country> retVal = new List<Models.Country>();
             using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
             {
                 StringBuilder sb = new StringBuilder();
-                string sql = $"SELECT * FROM Country WHERE countryCode LIKE '{code}';";
+                string sql = $"SELECT * FROM Country WHERE {campi} LIKE '%{param}%';";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -322,7 +351,7 @@ namespace FormulaOneDLL
                         {
                             string isoCode = reader.GetString(0);
                             string CountryName = reader.GetString(1);
-                            retVal = new Models.Country(isoCode, CountryName);
+                            retVal.Add(new Models.Country(isoCode, CountryName));
                         }
                     }
                 }
@@ -373,7 +402,7 @@ namespace FormulaOneDLL
             using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
             {
                 StringBuilder sb = new StringBuilder();
-                string sql = $"SELECT * FROM Driver WHERE driverCode LIKE '{code}';";
+                string sql = $"SELECT * FROM Driver WHERE driverCode = {code};";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -395,6 +424,51 @@ namespace FormulaOneDLL
                             string driverImage = reader.GetString(8);
                             string driverTeamCode = reader.GetString(9);
                             retVal = new Models.Driver(driverCode, driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, driverImage, driverTeamCode);
+                        }
+                    }
+                }
+            }
+            return retVal;
+        }
+
+        public static List<Models.Driver> GetTableDriverByStrParam(string campi, string param, string type)
+        {
+            string sql;
+
+            if (type == "name")
+            {
+                sql = $"SELECT * FROM Driver WHERE (driverFirstname + {' '} + driverLastname) LIKE '%{param}%';";
+            }
+            else
+            {
+                sql = $"SELECT * FROM Driver WHERE teamCode LIKE '%{param}%';";
+            }
+            List<Models.Driver> retVal = new List<Models.Driver>();
+            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+            {
+                StringBuilder sb = new StringBuilder();
+                //string sql = $"SELECT * FROM Driver WHERE {campi} LIKE '%{param}%';";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    // create data adapter
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int driverCode = reader.GetInt32(0);
+                            int driverNumber = reader.GetInt32(1);
+                            string driverFirstname = reader.GetString(2);
+                            string driverLastname = reader.GetString(3);
+                            //string driverTeamCode = reader.GetString(4);
+                            string driverNationality = reader.GetString(5);
+                            DateTime driverDateOfBirth = reader.GetDateTime(6);
+                            string driverPlaceOfBirth = reader.GetString(7);
+                            string driverImage = reader.GetString(8);
+                            string driverTeamCode = reader.GetString(9);
+                            retVal.Add(new Models.Driver(driverCode, driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, driverImage, driverTeamCode));
                         }
                     }
                 }
@@ -437,13 +511,13 @@ namespace FormulaOneDLL
             return retVal;
         }
 
-        public static Models.Team GetTableTeamByCode(string code)
+        public static List<Models.Team> GetTableTeamByStrParam(string campi, string param)
         {
-            Models.Team retVal = null;
+            List<Models.Team> retVal = new List<Models.Team>();
             using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
             {
                 StringBuilder sb = new StringBuilder();
-                string sql = $"SELECT * FROM Team WHERE teamCode LIKE '{code}';";
+                string sql = $"SELECT * FROM Team WHERE {campi} LIKE '%{param}%';";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -462,7 +536,7 @@ namespace FormulaOneDLL
                             int teamWorldChampionships = reader.GetInt32(5);
                             int teamPolePositions = reader.GetInt32(6);
                             string teamImage = reader.GetString(7);
-                            retVal = new Models.Team(teamCode, teamFullName, teamBase, teamChief, teamPowerUnit, teamWorldChampionships, teamPolePositions, teamImage);
+                            retVal.Add(new Models.Team(teamCode, teamFullName, teamBase, teamChief, teamPowerUnit, teamWorldChampionships, teamPolePositions, teamImage));
                         }
                     }
                 }
@@ -509,7 +583,7 @@ namespace FormulaOneDLL
             using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
             {
                 StringBuilder sb = new StringBuilder();
-                string sql = $"SELECT * FROM Circuit WHERE circuitCode LIKE '{code}';";
+                string sql = $"SELECT * FROM Circuit WHERE circuitCode = {code};";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -527,6 +601,37 @@ namespace FormulaOneDLL
                             int circuitMlength = reader.GetInt32(4);
                             string image = reader.GetString(5);
                             retVal = new Models.Circuit(circuitCode, circuitName, circuitCountry, circuitCity, circuitMlength, image);
+                        }
+                    }
+                }
+            }
+            return retVal;
+        }
+
+        public static List<Models.Circuit> GetTableCircuitByStrParam(string campi, string param)
+        {
+            List<Models.Circuit> retVal = new List<Models.Circuit>();
+            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+            {
+                StringBuilder sb = new StringBuilder();
+                string sql = $"SELECT * FROM Circuit WHERE {campi} LIKE '%{param}%';";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    // create data adapter
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int circuitCode = reader.GetInt32(0);
+                            string circuitName = reader.GetString(1);
+                            string circuitCountry = reader.GetString(2);
+                            string circuitCity = reader.GetString(3);
+                            int circuitMlength = reader.GetInt32(4);
+                            string image = reader.GetString(5);
+                            retVal.Add(new Models.Circuit(circuitCode, circuitName, circuitCountry, circuitCity, circuitMlength, image));
                         }
                     }
                 }
@@ -574,7 +679,7 @@ namespace FormulaOneDLL
             using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
             {
                 StringBuilder sb = new StringBuilder();
-                string sql = $"SELECT * FROM Race WHERE raceCode LIKE '{code}';";
+                string sql = $"SELECT * FROM Race WHERE raceCode = {code};";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -593,6 +698,38 @@ namespace FormulaOneDLL
                             int nLaps = reader.GetInt32(5);
                             string raceURL = reader.GetString(6);
                             retVal = new Models.Race(raceCode, circuitCode, raceName, raceDate, raceTime, nLaps, raceURL);
+                        }
+                    }
+                }
+            }
+            return retVal;
+        }
+
+        public static List<Models.Race> GetTableRaceByStrParam(string campi, string param)
+        {
+            List<Models.Race> retVal = new List<Models.Race>();
+            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+            {
+                StringBuilder sb = new StringBuilder();
+                string sql = $"SELECT * FROM Race WHERE {campi} LIKE '%{param}%';";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    // create data adapter
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int raceCode = reader.GetInt32(0);
+                            int circuitCode = reader.GetInt32(1);
+                            string raceName = reader.GetString(2);
+                            DateTime raceDate = reader.GetDateTime(3);
+                            string raceTime = reader.GetString(4);
+                            int nLaps = reader.GetInt32(5);
+                            string raceURL = reader.GetString(6);
+                            retVal.Add(new Models.Race(raceCode, circuitCode, raceName, raceDate, raceTime, nLaps, raceURL));
                         }
                     }
                 }
@@ -637,13 +774,13 @@ namespace FormulaOneDLL
             return retVal;
         }
 
-        public static Models.Result GetTableResultByCode(int code)
+        public static List<Models.Result> GetTableResultByParam(string campi, int param)
         {
-            Models.Result retVal = null;
+            List<Models.Result> retVal = new List<Models.Result>();
             using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
             {
                 StringBuilder sb = new StringBuilder();
-                string sql = $"SELECT * FROM Result WHERE resultCode LIKE '{code}';";
+                string sql = $"SELECT * FROM Result WHERE {campi} = {param};";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -664,7 +801,7 @@ namespace FormulaOneDLL
                             int resultPoints = reader.GetInt32(7);
                             int resultFastestLap = reader.GetInt32(8);
                             int resultFastestLapTime = reader.GetInt32(9);
-                            retVal = new Models.Result(resultCode, raceCode, driverCode, teamCode, resultPosition, resultTime, resultNlap, resultPoints, resultFastestLap, resultFastestLapTime);
+                            retVal.Add(new Models.Result(resultCode, raceCode, driverCode, teamCode, resultPosition, resultTime, resultNlap, resultPoints, resultFastestLap, resultFastestLapTime));
                         }
                     }
                 }
@@ -685,18 +822,16 @@ namespace FormulaOneDLL
                 {
                     connection.Open();
 
-                    // create data adapter
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             int trCode = reader.GetInt32(0);
-                            string teamCode = reader.GetString(3);
-                            int raceCode = reader.GetInt32(7);
-                            int resultCode = reader.GetInt32(8);
-                            int trTeamPoits = reader.GetInt32(9);
+                            string teamCode = reader.GetString(1);
+                            int raceCode = reader.GetInt32(2);
+                            int trTeamPoits = reader.GetInt32(3);
 
-                            retVal.Add(new Models.TeamResult(trCode, teamCode, raceCode, resultCode, trTeamPoits));
+                            retVal.Add(new Models.TeamResult(trCode, teamCode, raceCode, trTeamPoits));
                         }
                     }
                 }
@@ -710,7 +845,7 @@ namespace FormulaOneDLL
             using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
             {
                 StringBuilder sb = new StringBuilder();
-                string sql = $"SELECT * FROM TeamResult WHERE trCode LIKE '{code}';";
+                string sql = $"SELECT * FROM TeamResult WHERE trCode = {code};";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -722,11 +857,157 @@ namespace FormulaOneDLL
                         while (reader.Read())
                         {
                             int trCode = reader.GetInt32(0);
-                            string teamCode = reader.GetString(3);
-                            int raceCode = reader.GetInt32(7);
-                            int resultCode = reader.GetInt32(8);
-                            int trTeamPoits = reader.GetInt32(9);
-                            retVal = new Models.TeamResult(trCode, teamCode, raceCode, resultCode, trTeamPoits);
+                            string teamCode = reader.GetString(1);
+                            int raceCode = reader.GetInt32(2);
+                            int trTeamPoits = reader.GetInt32(3);
+                            retVal = new Models.TeamResult(trCode, teamCode, raceCode, trTeamPoits);
+                        }
+                    }
+                }
+            }
+            return retVal;
+        }
+
+
+        public static List<Models.DettaglioDriver> GetDettaglioDriver()
+        {
+
+            int driverCode = 0;
+            string driverFirstname = "";
+            string driverLastname = "";
+            string driverCountry = "";
+            DateTime driverDateOfBirth = DateTime.Today;
+            string driverPlaceOfBirth = "";
+            string driverImage = "";
+            string driverTeam = "";
+            string countryImage = "";
+
+        
+            List<Models.DettaglioDriver> retVal = new List<Models.DettaglioDriver>();
+            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+            {
+                string sql = $"SELECT * FROM Driver;";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            driverCode = reader.GetInt32(0);
+                            driverFirstname = reader.GetString(2);
+                            driverLastname = reader.GetString(3);
+                            driverCountry = reader.GetString(5);
+                            driverDateOfBirth = reader.GetDateTime(6);
+                            driverPlaceOfBirth = reader.GetString(7);
+                            driverImage = reader.GetString(8);
+                            driverTeam = reader.GetString(9);
+
+                            //connection.Close();
+                            using (SqlConnection connection2 = new SqlConnection(CONNECTION_STRING))
+                            {
+                                sql = $"SELECT * FROM Country WHERE countryCode LIKE '{driverCountry}';";
+                                using (SqlCommand command2 = new SqlCommand(sql, connection2))
+                                {
+                                    //connection.Open();
+                                    connection2.Open();
+                                    using (SqlDataReader reader2 = command2.ExecuteReader())
+                                    {
+                                        while (reader2.Read())
+                                        {
+                                            driverCountry = reader2.GetString(1);
+                                            countryImage = reader2.GetString(2);
+                                            //retVal.Add(new Models.DettaglioDriver(driverCode, driverNumber, driverFirstname, driverLastname, driverNationality, driverDateOfBirth, driverPlaceOfBirth, driverImage, driverTeamCode));
+
+                                            //connection.Close();
+                                            using (SqlConnection connection3 = new SqlConnection(CONNECTION_STRING))
+                                            {
+                                                sql = $"SELECT * FROM Team WHERE teamCode LIKE '{driverTeam}';";
+                                                using (SqlCommand command3 = new SqlCommand(sql, connection3))
+                                                {
+                                                    //connection.Open();
+                                                    connection3.Open();
+                                                    using (SqlDataReader reader3 = command3.ExecuteReader())
+                                                    {
+                                                        while (reader3.Read())
+                                                        {
+                                                            driverTeam = reader3.GetString(1);
+
+                                                            retVal.Add(new Models.DettaglioDriver(driverCode, driverFirstname, driverLastname, driverCountry, driverDateOfBirth, driverPlaceOfBirth, driverImage, driverTeam, countryImage));
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                    }
+                    
+                }
+            }
+            return retVal;
+        }
+		
+		public static List<int> GetDriverCodes()
+        {
+            List<int> driverCodes = new List<int>();
+
+            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+            {
+                string sql = "SELECT * FROM GetDriverCodes();";
+
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+
+                    // create data adapter
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            driverCodes.Add(reader.GetInt32(0));
+                        }
+                    }
+                }
+            }
+            return driverCodes;
+        }
+
+        public static List<Models.Statistics> GetTableStatistics(List<int> driverCodes)
+        {
+            List<Models.Statistics> retVal = new List<Models.Statistics>();
+
+            foreach (int code in driverCodes)
+            {
+                using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+                {
+                    string sql = $"EXEC DriverResults @id = {code}";
+
+                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    {
+                        connection.Open();
+
+                        // create data adapter
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int totPoints = reader.GetInt32(1);
+                                decimal averagePoints = reader.GetDecimal(2);
+                                int nFastestLap = reader.GetInt32(3);
+                                int nFirstPlace = reader.GetInt32(4);
+                                int nSecondPlace = reader.GetInt32(5);
+                                int nThirdPlace = reader.GetInt32(6);
+                                int nPodius = reader.GetInt32(7);
+
+                                retVal.Add(new Models.Statistics(code, totPoints, averagePoints, nFastestLap,
+                                                nFirstPlace, nSecondPlace, nThirdPlace, nPodius));
+                            }
                         }
                     }
                 }

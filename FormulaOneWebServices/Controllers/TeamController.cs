@@ -20,10 +20,24 @@ namespace FormulaOneWebServices.Controllers
         }
 
         // GET: api/Team/5
-        [HttpGet("{id}")]
-        public FormulaOneDLL.Models.Team Get(string id)
+        [HttpGet("id/{id}")]
+        [HttpGet("name/{name}")]
+        public List<FormulaOneDLL.Models.Team> Get(string id, string name)
         {
-            return Utils.GetTableTeamByCode(id.ToUpper());
+            string param;
+            string campi;
+            if (id != null)
+            {
+                //tab = "Team";
+                campi = "teamCode";
+                param = id.ToUpper();
+            }
+            else
+            {
+                campi = "teamPowerUnit";
+                param = name;
+            }
+            return Utils.GetTableTeamByStrParam(campi, param);
         }
 
         // POST: api/Team

@@ -23,10 +23,24 @@ namespace FormulaOneWebServices
         }
 
         // GET: api/Country/5
-        [HttpGet("{id}")]
-        public FormulaOneDLL.Models.Country Get(string id)
+        [HttpGet("id/{id}")]
+        [HttpGet("name/{name}")]
+        public List<FormulaOneDLL.Models.Country> Get(string id, string name)
         {
-            return Utils.GetTableCountryByCode(id.ToUpper());
+            string param;
+            string campi;
+            if (id != null)
+            {
+                //tab = "Country";
+                campi = "countryCode";
+                param = id.ToUpper();
+            }
+            else
+            {
+                campi = "countryName";
+                param = name;
+            }
+            return Utils.GetTableCountryByStrParam(campi, param);
         }
 
         // POST: api/Country

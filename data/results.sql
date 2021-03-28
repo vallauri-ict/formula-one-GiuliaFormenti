@@ -8,6 +8,23 @@ CREATE TABLE [dbo].[Result] (
   [resultNlap] int NOT NULL default 0,
   [resultPoints] int NOT NULL default 0,
   [resultFastestLap] int NOT NULL default 0,
-  [resultFastestLapTime] int NOT NULL default 0,
+  [resultFastestLapTime] varchar(200) NOT NULL default '',
   PRIMARY KEY ([resultCode])
 );
+
+INSERT INTO [Result] VALUES (1, 44, 'MER', '1', '00:45:36', 71, 25, 44, '00:01:05'),
+INSERT INTO [Result] VALUES (1, 16, 'FER', '6', '00:46:14', 71, 8, 44, '00:01:05'),
+INSERT INTO [Result] VALUES(1, 10, 'ATH', '14', '00:50:39', 71, 0, 44, '00:01:05'),
+INSERT INTO [Result] VALUES (1, 26, 'ATH', '24', '00:52:07', 71, 0, 44, '00:01:05'),
+INSERT INTO [Result] VALUES (3, 44, 'MER', '2', '00:49:03', 70, 18, 16, '00:00:59'),
+INSERT INTO [Result] VALUES (3, 16, 'FER', '1', '00:48:57', 70, 25, 16, '00:00:59'),
+INSERT INTO [Result] VALUES (3, 10, 'ATH', '3', '00:49:10', 70, 15, 16, '00:00:59'),
+INSERT INTO [Result] VALUES (3, 26, 'ATH', '6', '00:53:23', 70, 8, 16, '00:00:59'),
+INSERT INTO [Result] VALUES (9, 44, 'MER', '1', '00:59:29', 59, 25, 44, '00:00:42'),
+INSERT INTO [Result] VALUES (9, 16, 'FER', '3', '00:59:59', 59, 15, 44, '00:00:42'),
+INSERT INTO [Result] VALUES (9, 10, 'ATH', '2', '00:59:34', 59, 18, 44, '00:00:42'),
+INSERT INTO [Result] VALUES (9, 26, 'ATH', '10', '01:10:27', 59, 1, 44, '00:00:42'),
+INSERT INTO [Result] VALUES (15, 44, 'MER', '3', '01:04:36', 66, 15, 10, '00:01:01'),
+INSERT INTO [Result] VALUES (15, 16, 'FER', '1', '01:03:10', 66, 25, 10, '00:01:01'),
+INSERT INTO [Result] VALUES (15, 10, 'ATH', '4', '01:04:46', 66, 12, 10, '00:01:01'),
+INSERT INTO [Result] VALUES (15, 26, 'ATH', '9', '01:05:00', 66, 2, 10, '00:01:01');

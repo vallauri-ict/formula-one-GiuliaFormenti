@@ -20,10 +20,30 @@ namespace FormulaOneWebServices.Controllers
         }
 
         // GET: api/Result/5
-        [HttpGet("{id}")]
-        public FormulaOneDLL.Models.Result Get(string id)
+        [HttpGet("id/{id}")]
+        [HttpGet("driverId/{dId}")]
+        [HttpGet("raceId/{rId}")]
+        public List<FormulaOneDLL.Models.Result> Get(int id, int dId, int rId)
         {
-            return Utils.GetTableResultByCode(Convert.ToInt32(id));
+            int param;
+            string campi;
+            if (id != null)
+            {
+                //tab = "Result";
+                campi = "resultCode";
+                param = id;
+            }
+            else if(dId != null)
+            {
+                campi = "driverCode";
+                param = dId;
+            }
+            else
+            {
+                campi = "raceCode";
+                param = rId;
+            }
+            return Utils.GetTableResultByParam(campi, param);
         }
 
         // POST: api/Result

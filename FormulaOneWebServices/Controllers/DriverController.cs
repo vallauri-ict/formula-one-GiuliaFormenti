@@ -19,11 +19,38 @@ namespace FormulaOneWebServices.Controllers
             return Utils.GetTableDriver();
         }
 
-        // GET: api/Driver/5
-        [HttpGet("{id}")]
-        public FormulaOneDLL.Models.Driver Get(string id)
+        // GET: api/Driver/id/5
+        [HttpGet("id/{id}")]
+        public FormulaOneDLL.Models.Driver Get(int id)
         {
             return Utils.GetTableDriverByCode(Convert.ToInt32(id));
+        }
+
+        // GET: api/Driver/id/5
+        [HttpGet("name/{name}")]
+        [HttpGet("team/{team}")]
+        public List<FormulaOneDLL.Models.Driver> Get(string name, string team)
+        {
+            //string tab = "";
+            string param;
+            string campi;
+            string type;
+            if (name != null)
+            {
+                name = name.Replace('-', ' ');
+                //tab = "Driver";
+                campi = "(driverFirstname + {' '} + driverLastname)";
+                param = name;
+                type = "name";
+            }
+            else
+            {
+                campi = "teamCode";
+                param = team;
+                type = "team";
+            }
+            
+            return Utils.GetTableDriverByStrParam(campi, param, type);
         }
 
         // POST: api/Driver

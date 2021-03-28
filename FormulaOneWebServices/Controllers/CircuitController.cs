@@ -21,10 +21,30 @@ namespace FormulaOneWebServices.Controllers
         }
 
         // GET: api/Circuit/5
-        [HttpGet("{id}")]
-        public FormulaOneDLL.Models.Circuit Get(string id)
+        [HttpGet("id/{id}")]
+        public FormulaOneDLL.Models.Circuit Get(int id)
         {
             return Utils.GetTableCircuitByCode(Convert.ToInt32(id));
+        }
+
+        [HttpGet("name/{name}")]
+        [HttpGet("country/{country}")]
+        public List<FormulaOneDLL.Models.Circuit> Get(string name, string country)
+        {
+            string param;
+            string campi;
+            if (name != null)
+            {
+                //tab = "Country";
+                campi = "circuitName";
+                param = name;
+            }
+            else
+            {
+                campi = "circuitCountry";
+                param = country.ToUpper();
+            }
+            return Utils.GetTableCircuitByStrParam(campi, param);
         }
 
         // POST: api/Circuit

@@ -5,40 +5,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FormulaOneDLL;
+using System.Data;
 
 namespace FormulaOneWebServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RaceController : ControllerBase
+    public class StatisticsController : ControllerBase
     {
-        // GET: api/Race
+        // GET: api/TeamResult
         [HttpGet]
-        public List<FormulaOneDLL.Models.Race> Get()
+        public List<FormulaOneDLL.Models.Statistics> Get()
         {
-            return Utils.GetTableRace();
+            List<int> driverCodes = Utils.GetDriverCodes();
+            return Utils.GetTableStatistics(driverCodes);
         }
 
-        // GET: api/Race/5
-        [HttpGet("id/{id}")]
-        public FormulaOneDLL.Models.Race Get(int id)
-        {
-            return Utils.GetTableRaceByCode(Convert.ToInt32(id));
-        }
-
-        [HttpGet("name/{id}")]
-        public List<FormulaOneDLL.Models.Race> Get(string name)
-        {
-            return Utils.GetTableRaceByStrParam("raceName", name.ToUpper());
-        }
-
-        // POST: api/Race
+        // POST: api/TeamResult
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Race/5
+        // PUT: api/TeamResult/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
