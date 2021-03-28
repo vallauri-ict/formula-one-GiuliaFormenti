@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Race] (
   [raceCode] int IDENTITY(1,1),
-  [circuitCode] int NOT NULL default 1,
+  [circuitCode] int NOT NULL default '',
   [raceName] varchar(200) NOT NULL default '',
   [raceDate] date NOT NULL default '2020-07-05',
   [raceTime] varchar(10) NOT NULL default '14:30',

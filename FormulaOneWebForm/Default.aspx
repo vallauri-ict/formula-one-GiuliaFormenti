@@ -109,10 +109,7 @@
 
             <asp:Label id="lblMessaggio" runat="server" Text=" "></asp:Label> <br /><br />
             <asp:DropDownList id="lbxScelta" runat="server" OnSelectedIndexChanged="lbxScelta_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList> <br /><br />
-
-            <!--<asp:Button id="btnInvia" runat="server" Text="Invia"></asp:Button> <br /><br />-->
             
-            <!--<asp:ListBox id="lbxElenco" runat="server"></asp:ListBox>-->
             <asp:DataGrid ID="dataTable" runat="server" CssClass="grid" AllowPaging="True" PageSize="18">
                 <HeaderStyle CssClass="GridHeader"></HeaderStyle>
                 <ItemStyle CssClass="GridItem"></ItemStyle>
